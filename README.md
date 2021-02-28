@@ -1,2 +1,3 @@
-# SCIP-learning
-SCIP demo and exercises
+# SICP-learning
+
+SICP examples and exercises
