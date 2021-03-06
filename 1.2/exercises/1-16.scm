@@ -1,0 +1,11 @@
+(define (expt-iter-fast b n)
+  (define (even? x)
+    (= 0 (remainder x 2)))
+  (define (iter b counter product)
+    (cond ((= counter 0) product)
+	  ((even? b) (iter (square b) (/ counter 2) product))
+	  (else (iter b (- counter 1) (* b product)))))
+  (iter b n 1))
+
+(expt-iter-fast 3 4)
+(expt-iter-fast 3 5)

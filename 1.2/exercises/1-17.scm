@@ -1,0 +1,13 @@
+(define (mult-fast a b)
+  (define (even?)
+    (= 0 (remainder b 2)))
+  (define (double x)
+    (+ x x))
+  (define (halve x)
+    (/ x 2))
+  (cond ((= b 0) 0)
+	((even?) (double (mult-fast a (halve b))))
+	(else (+ a (mult-fast a (- b 1))))))
+
+(mult-fast 3 4)
+(mult-fast 13 7)
