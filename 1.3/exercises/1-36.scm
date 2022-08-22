@@ -1,18 +1,20 @@
+(load "utils/average-damp.scm")
+
 (define (fixed-point f first-guess)
-  (define (close-enough? a b)
-    (< (abs (- a b)) 0.00001))
+  (define (close-enough? x y)
+    (< (abs (- x y)) 0.00001))
   (define (try guess)
-    (display "fixed point: ")
-    (display guess)
     (newline)
-    (let ((next (f guess)))
-      (if (close-enough? next guess)
-	  next
-	  (try next))))
+    (display "Guess is ")
+    (display guess)
+    (let ((next-value (f guess)))
+      (if (close-enough? guess next-value)
+	  next-value
+	  (try next-value))))
   (try first-guess))
 
-(define (average x y)
-  (/ (+ x y) 2.0))
-
-(fixed-point (lambda (x) (/ (log 1000) (log x))) 2.0)
-(fixed-point (lambda (x) (average (/ (log 1000) (log x)) x)) 2.0)
+(fixed-point (lambda (x) (/ (log 1000) (log x)))
+	     2.0)
+(fixed-point (average-damp (lambda (x) (/ (log 1000) (log x))))
+	     2.0)
+	

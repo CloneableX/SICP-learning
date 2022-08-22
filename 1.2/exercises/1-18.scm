@@ -1,15 +1,21 @@
-(define (mult-iter-fast a b)
-  (define (double x)
-    (+ x x))
-  (define (halve x)
-    (/ x 2))
-  (define (even? x)
-    (= 0 (remainder x 2)))
-  (define (iter a counter product)
-    (cond ((= counter 0) product)
-	  ((even? counter) (iter (double a) (halve counter) product))
-	  (else (iter a (- counter 1) (+ a product)))))
-  (iter a b 0))
+(define (fast-expt a b)
+  (fast-expt-iter a 0 b))
 
-(mult-iter-fast 13 8) ;;; = (* 13 8)
-(mult-iter-fast 3 4)  ;;; = (* 3 4)
+(define (fast-expt-iter a sum b)
+  (cond ((= b 0) sum)
+	((even? b) (fast-expt (double a)
+			      sum
+			      (halve b)))
+	(else (fast-expt a
+			 (+ a sum)
+			 (- b 1)))))
+
+(define (double a)
+  (+ a a))
+
+(define (halve a)
+  (/ a 2))
+
+(fast-expt 3 2)
+(fast-expt 4 0)
+(fast-expt 4 5)

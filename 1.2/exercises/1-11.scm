@@ -1,27 +1,25 @@
-(define (f-recur n)
+(define (recursive-f n)
   (if (< n 3)
       n
-      (+ (f-recur (- n 1))
-	 (* 2
-	    (f-recur (- n 2)))
-	 (* 3
-	    (f-recur (- n 3))))))
+      (+ (f (- n 1))
+	 (* 2 (f (- n 2)))
+	 (* 3 (f (- n 3))))))
 
-(f-recur 5)
+(recursive-f 3)
+(recursive-f 4)
 
-(define (f-iter n)
-  (define (iter a b c max-counter)
-    (cond ((< max-counter 0) (+ max-counter 2))
-	  ((= max-counter 0) c)
-	  (else (iter b
-		      c
-		      (+ (* 3 a)
-			 (* 2 b)
-			 c)
-		      (- max-counter 1)))))
-  (iter 0
-	1
-	2
-	(- n 2)))
+(define (iterative-f n)
+  (f-iter 2 1 0 n))
 
-(f-iter 5)
+(define (f-iter x y z n)
+  (if (= n 0)
+      z
+      (f-iter (+ (* 3 z)
+		 (* 2 y)
+		 x)
+	      x
+	      y
+	      (- n 1))))
+
+(iterative-f 3)
+(iterative-f 4)

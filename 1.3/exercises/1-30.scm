@@ -1,11 +1,12 @@
-(load "sum.scm")
-
 (define (sum term a next b)
-  (define (iter a result)
-    (if (> a b)
+  (define (sum-iter n result)
+    (if (> n b)
 	result
-	(iter (next a) (+ result (term a)))))
-  (iter a 0))
+	(sum-iter (next n)
+		  (+ result (term n)))))
+  (sum-iter a 0))
 
-(sum-cubes-new 1 10)
-(sum-integers-new 1 10)
+(sum cube
+     1
+     (lambda (x) (+ x 1))
+     3)

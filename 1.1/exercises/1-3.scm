@@ -1,15 +1,7 @@
-(define (max x y)
-  (if (< x y)
-      y
-      x))
+(define (sum-of-lager-two-squares x y z)
+  (define (sum-of-squares x y)
+    (+ (square x) (square y)))
+  (cond ((and (< x y) (< x z)) (sum-of-squares y z))
+	((and (< y x) (< y z)) (sum-of-squares x z))
+	(else (sum-of-squares x y))))
 
-(define (assert-max x y expected)
-  (= (max x y) expected))
-
-(define (sum-max-two-nums x y z)
-  (cond ((and (assert-max x y x) (assert-max y z y)) (+ x y))
-	((and (assert-max x y x) (assert-max y z z)) (+ x z))
-	((and (assert-max x y y) (assert-max y z z)) (+ y z))))
-
-(sum-max-two-nums 2 3 4)
-(sum-max-two-nums 2 2 2)

@@ -1,14 +1,17 @@
-(load "1-37.scm")
+(load "utils/cont-frac.scm")
 
-(define (e k)
-  (define (N i) 1.0)
-  (define (D i)
-    (if (= 0 (remainder (+ i 1) 3))
-	(* 2 (/ (+ i 1) 3))
-	1))
-  (+ 2 (cont-frac-iter N D k)))
+(define (d i)
+  (if (= (remainder (+ i 1) 3) 0)
+      (* 2 (/ (+ i 1) 3))
+      1))
 
-(e 1)
+(define (e x)
+  (+ 2
+     (cont-frac (lambda (i) 1.0)
+		d
+		x)))
+
 (e 2)
+(e 5)
 (e 10)
 (e 100)

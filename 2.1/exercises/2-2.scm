@@ -1,62 +1,31 @@
-(define (make-segment start end)
-  (cons start end))
+(define (make-segment start-point end-point)
+  (cons start-point end-point))
+(define (start-segment s) (car s))
+(define (end-segment s) (cdr s))
 
-(define (start-segment segment)
-  (car segment))
+(define (make-point x y) (cons x y))
+(define (x-point p) (car p))
+(define (y-point p) (cdr p))
 
-(define (end-segment segment)
-  (cdr segment))
+(define (midpoint-segment s)
+  (average-point (start-segment s)
+		 (end-segment s)))
 
-(define (make-point x y)
-  (cons x y))
+(define (average-point a b)
+  (make-point (average (x-point a) (x-point b))
+	      (average (y-point a) (y-point b))))
 
-(define (x-point point)
-  (car point))
+(define (average x y)
+  (/ (+ x y) 2))
 
-(define (y-point point)
-  (cdr point))
-
-(define (print-point point)
+(define (print-point p)
   (newline)
   (display "(")
-  (display (x-point point))
+  (display (x-point p))
   (display ",")
-  (display (y-point point))
+  (display (y-point p))
   (display ")"))
 
-(define origin-point (make-point 0 0))
-
-(print-point origin-point)
-(print-point (make-point 1 3))
-
-(define (midpoint-segment segment)
-  (div-point (sum-point (start-segment segment)
-			(end-segment segment))
-	     2))
-
-(define (div-point point n)
-  (make-point (/ (x-point point) n)
-	      (/ (y-point point) n)))
-
-(define (sum-point p1 p2)
-  (make-point (+ (x-point p1) (x-point p2))
-	      (+ (y-point p1) (y-point p2))))
-
-(define (equal-point? p1 p2)
-  (and (= (x-point p1) (x-point p2))
-       (= (y-point p1) (y-point p2))))
-
-(equal-point? origin-point origin-point)
-(equal-point? (make-point 1 1)
-	      (div-point (make-point 2 2)
-			 2))
-(equal-point? (make-point 3 3)
-	      (sum-point (make-point 1 2)
-			 (make-point 2 1)))
-
-(equal-point? (midpoint-segment (make-segment origin-point
-				   (make-point 2 0)))
-   (make-point 1 0))
-(equal-point? (midpoint-segment (make-segment origin-point
-					      (make-point 2 2)))
-	      (make-point 1 1))
+; (define line-segment (make-segment (make-point 1 2)
+;				   (make-point 3 2)))
+; (print-point (midpoint-segment line-segment))

@@ -1,27 +1,22 @@
-(load "1-42.scm")
+(define (iterative-improve enough improve)
+  (lambda (guess)
+    (if (enough guess)
+	guess
+	((iterative-improve enough improve) (improve guess)))))
 
-(define (interative-improve good-enough? improve)
-  (lambda (first-guess)
-    (define (try guess)
-      (let ((next (improve guess)))
-	(if (good-enough? next guess)
-	    next
-	    (try next))))
-    (try first-guess)))
+(define (sqrt x)
+  (define (good-enough? guess)
+    (< (abs (- (square guess) x)) 0.001))
+  (define (improve guess)
+    (/ (+ guess (/ x guess)) 2))
+  ((iterative-improve good-enough? improve) 1.0))
 
-(define (fixed-point f guess)
-  (define (close-enough? a b)
-    (< (abs (- a b)) 0.00001))
-  ((interative-improve close-enough? f) guess))
+(sqrt 4)
+
+(define (fixed-point f first-guess)
+  (define (close-enough? x)
+    (< (abs (- x (f x))) 0.00001))
+  ((iterative-improve close-enough? f) first-guess))
 
 (fixed-point cos 1.0)
 
-(define (sqrt x)
-  (define (good-enough? a b)
-    (< (abs (- a b)) 0.00001))
-  (define (improve guess)
-    (/ (+ guess (/ x guess)) 2))
-  ((interative-improve good-enough? improve) 1.0))
-
-(sqrt 4)
-(sqrt 9)

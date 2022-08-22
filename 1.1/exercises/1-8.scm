@@ -1,21 +1,18 @@
-(load "1-7.scm")
+(define (cube-root x)
+  (define (good-enough? guess)
+    (< (abs (/ (- guess (improve guess))
+	       guess))
+       0.001))
+  (define (improve guess)
+    (/ (+ (/ x (square guess))
+	  (* 2 guess))
+       3))
+  (define (cube-root-iter guess)
+    (if (good-enough? guess)
+	guess
+	(cube-root-iter (improve guess))))
+  (cube-root-iter 1.0))
 
-(define (curt-iter guess x)
-  (if (good-enough? guess
-		    (improve guess x))
-      guess
-      (curt-iter (improve guess x)
-		 x)))
-
-(define (improve guess x)
-  (/ (+ (/ x
-	   (square guess))
-	(* 2 guess))
-     3))
-
-(define (curt x)
-  (curt-iter 1.0 x))
-
-(curt 8)
-(curt 27)
-
+(cube-root 27)
+(cube-root 0.0000001)
+(cube-root 90000000000000000000000000000000000000000000000000000000000000000000000000000000000000)

@@ -1,21 +1,36 @@
 (define (cont-frac n d k)
-  (define (recursion counter)
-    (if (> counter k)
-	0
-	(/ (n counter) (+ (d counter) (recursion (+ counter 1))))))
-  (recursion 1))
+  (cont-frac-accumulate n d k 0))
 
-(/ 1 (cont-frac (lambda (i) 1.0)
-		(lambda (i) 1.0)
-		13))
+(define (cont-frac-accumulate n d k result)
+  (if (< k 1)
+      result
+      (cont-frac-accumulate n
+			    d
+			    (- k 1)
+			    (/ (n k)
+			       (+ (d k) result)))))
 
-(define (cont-frac-iter n d k)
-  (define (iter counter result)
-    (if (< counter 1)
-	result
-	(iter (- counter 1) (/ (n counter) (+ (d counter) result)))))
-  (iter k 0))
+(define (cont-frac-accumulate n d k result)
+  (define (accumulate-iter x accum-result)
+    (if (< x 1)
+	accum-result
+	(accumulate-iter (- x 1)
+			 (/ (n x)
+			    (+ (d x) accum-result)))))
+  (accumulate-iter k result))
 
-(/ 1 (cont-frac-iter (lambda (i) 1.0)
-		    (lambda (i) 1.0)
-		    13))
+(define (varphi x)
+  (cont-frac (lambda (i) 1.0)
+	     (lambda (i) 1.0)
+	     x))
+
+(varphi 1)
+(varphi 2)
+(varphi 3)
+(varphi 4)
+(varphi 5)
+(varphi 6)
+(varphi 7)
+(varphi 8)
+(varphi 9)
+(varphi 10)

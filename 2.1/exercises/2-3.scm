@@ -1,71 +1,38 @@
 (load "2-2.scm")
 
-(define (length-of-segment segment)
-  (distance-of-point (start-segment segment)
-		     (end-segment segment)))
+(define (segment-length s)
+  (point-distance (start-segment s)
+		  (end-segment s)))
 
-(define (distance-of-point p1 p2)
-  (sqrt (+ (square (- (x-point p1)
-		      (x-point p2)))
-	   (square (- (y-point p1)
-		      (y-point p2))))))
+(define (point-distance a b)
+  (sqrt (+ (square (- (x-point a)
+		      (x-point b)))
+	   (square (- (y-point a)
+		      (y-point b))))))
 
-(= 5
-   (distance-of-point origin-point
-		      (make-point 3 4)))
+(define (make-rect b l) (cons b l))
+(define (breadth-rect r) (car r))
+(define (length-rect r) (cdr r))
 
-(= 5
-   (length-of-segment (make-segment origin-point
-				    (make-point 3 4))))
+(define (breadth-value-rect r)
+  (segment-length (breadth-rect r)))
+(define (length-value-rect r)
+  (segment-length (length-rect r)))
 
-(define (make-rectangle width-segment length-segment)
-  (cons width-segment length-segment))
+(define (rect-area r)
+  (* (breadth-value-rect r)
+     (length-value-rect r)))
+(define (rect-perimeter r)
+  (* (+ (breadth-value-rect r)
+	(length-value-rect r))
+     2))
 
-(define (width-segment rectangle)
-  (car rectangle))
+(define a-point (make-point 2 0))
+(define b-point (make-point 0 1))
+(define o-point (make-point 0 0))
 
-(define (length-segment rectangle)
-  (cdr rectangle))
+(define rect-a (make-rect (make-segment o-point a-point)
+			  (make-segment o-point b-point)))
 
-(define (width-of-rectangle rectangle)
-  (length-of-segment (width-segment rectangle)))
-
-(define (length-of-rectangle rectangle)
-  (length-of-segment (length-segment rectangle)))
-
-(define (perimeter rectangle)
-  (* 2
-     (+ (width-of-rectangle rectangle)
-	(length-of-rectangle rectangle))))
-
-(define (area rectangle)
-  (* (width-of-rectangle rectangle)
-     (length-of-rectangle rectangle)))
-
-(define (make-rectangle width length)
-  (cons width length))
-
-(define (width-of-rectangle rectangle)
-  (width-segment rectangle))
-
-(define (length-of-rectangle rectangle)
-  (length-segment rectangle))
-
-(define test-rectangle (make-rectangle (make-segment origin-point
-						     (make-point 0 2))
-				       (make-segment origin-point
-						     (make-point 4 0))))
-
-(define test-distance-rect (make-rectangle 2 4))
-
-(= 2
-   (width-of-rectangle test-rectangle))
-(= 4 (length-of-rectangle test-rectangle))
-
-(= 12 (perimeter test-rectangle))
-(= 8 (area test-rectangle))
-
-(= 12 (perimeter test-distance-rect))
-(= 8 (area test-distance-rect))
-
-
+(rect-area rect-a)
+(rect-perimeter rect-a)

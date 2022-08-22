@@ -1,10 +1,12 @@
-(define (psc level index)
-  (if (or (= index 1)
-	  (= index level))
-      1
-      (+ (psc (- level 1)
-	      index)
-	 (psc (- level 1)
-	      (- index 1)))))
+(define (p-triangle row col)
+  (cond ((or (< col 1) (> col row)) 0)
+	((= row 1) 1)
+	(else (+ (p-triangle (- row 1)
+			     col)
+		 (p-triangle (- row 1)
+			     (- col 1))))))
 
-(psc 5 3)
+(p-triangle 3 3)
+(p-triangle 4 3)
+(p-triangle 5 3)
+			  

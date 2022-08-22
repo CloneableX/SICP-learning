@@ -1,25 +1,37 @@
-(load "1-32.scm")
-(load "prime.scm")
+(load "utils/prime.scm")
 
-(define (filtered-accumulate check combiner null-value term a next b)
-  (define (iter a result)
-    (cond ((> a b) result)
-	  ((check a) (iter (next a) (combiner (term a) result)))
-	  (else (iter (next a) result))))
-  (iter a null-value))
+(define (accumulate combiner null-value term a next b)
+  (define (accumulate-iter n result)
+    (if (> n b)
+	result
+	(accumulate-iter (next n)
+			 (combiner result (term n)))))
+  (accumulate-iter a null-value))
 
-(define (prime-sum a b)
-  (filtered-accumulate prime? + 0 identity a inc b))
+(define (accumulate-filter combiner null-value predicate term a next b)
+  (define (filter-term n)
+    (if (predicate n)
+	(term n)
+	null-value))
+  (accumulate combiner null-value filter-term a next b))
 
-(prime-sum 1 10)
+(define (prime-sum-of-square a b)
+  (if (< a 2)
+      (error "Value must be greater than 1" a)
+      (accumulate-filter +
+			 0
+			 prime?
+			 (lambda (x) (square x))
+			 a
+			 (lambda (x) (+ x 1))
+			 b)))
 
-(define (co-prime? a b)
-  (= (gcd a b) 1))
+(prime-sum-of-square 2 10)
 
-(define (co-prime-product n)
-  (define (co-prime-n? x)
-    (co-prime? x n))
-  (filtered-accumulate co-prime-n? * 1 identity 1 inc n))
+(define (relative-prime-product n)
+  (define (relative-prime? x)
+    (= 1 (gcd x n)))
+  (accumulate-filter * 1 relative-prime? (lambda (x) x) 1 (lambda (x) (+ x 1)) n))
 
-(co-prime-product 3)
-(co-prime-product 10)
+(relative-prime-product 5)
+(relative-prime-product 10)

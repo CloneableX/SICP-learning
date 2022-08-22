@@ -1,10 +1,12 @@
-(load "1-42.scm")
+(define (compose g f)
+  (lambda (x) (g (f x))))
 
-(define (repeated f n)
-  (define (iter counter result)
-    (if (= counter n)
-	result
-	(iter (+ counter 1) (compose f result))))
-  (iter 1 f))
+(define (repeated f times)
+  (define (repeated-iter func count)
+    (if (= count 0)
+	func
+	(repeated-iter (compose f func) (- count 1))))
+  (repeated-iter f (- times 1)))
+
 
 ((repeated square 2) 5)

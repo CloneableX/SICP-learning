@@ -1,15 +1,16 @@
-(load "../examples/1-1-7.scm)
+(define (sqrt x)
+  (define (good-enough? guess)
+    (< (abs (/ (- guess (improve guess))
+	       guess))
+       0.001))
+  (define (improve guess)
+    (/ (+ guess (/ x guess)) 2))
+  (define (sqrt-iter guess)
+    (if (good-enough? guess)
+	guess
+	(sqrt-iter (improve guess))))
+  (sqrt-iter 1.0))
 
-(define (sqrt-iter guess x)
-  (if (good-enough? guess (improve guess x))
-      guess
-      (sqrt-iter (improve guess x)
-		 x)))
-
-(define (good-enough? old-guess new-guess)
-  (> 0.01
-     (/ (abs (- old-guess new-guess))
-	old-guess)))
-
-(sqrt 0.00009)
-(sqrt 90000000000000000000000000000000000000000000000000000000000000000)
+(sqrt 4)
+(sqrt 0.000000000001)
+(sqrt 90000000000000000000000000000000000000000000000000000000000000000000000000000000000000)

@@ -1,4 +1,7 @@
-(define (compose f g)
-  (lambda (x) (f (g x))))
+(define (compose g f)
+  (lambda (x) (g (f x))))
 
-((compose square (lambda (x) (+ x 1))) 6)
+(define (inc x)
+  (+ x 1))
+
+((compose square inc) 6)

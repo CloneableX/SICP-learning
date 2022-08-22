@@ -1,0 +1,20 @@
+(define (fast-prime? n times)
+  (cond ((= times 0) true)
+	((prime? n) (fast-prime? n (- times 1)))
+	(else false)))
+
+(define (prime? n)
+  (define (fermat-test n a)
+    (= (expmod a n n) a))
+  (fermat-test n (+ 1 (random (- n 1)))))
+
+(define (expmod base exp m)
+  (cond ((= exp 0) 1)
+	((= (remainder exp 2) 0)
+	 (remainder (square (expmod base (/ exp 2) m))
+		    m))
+	(else (remainder (* base (expmod base (- exp 1) m))
+			 m))))
+
+(fast-prime? 10 5)
+(fast-prime? 23 10)
