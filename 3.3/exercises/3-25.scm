@@ -1,0 +1,57 @@
+(define (make-table same-key?)
+  (define (assoc key records)
+    (cond ((null? records) false)
+	  ((same-key? key (caar records)) (car records))
+	  (else (assoc key (cdr records)))))
+  (let ((local-table (list '*table*)))
+    (define (lookup keys)
+      (define (iter rest-keys table)
+	(cond ((null? rest-keys)
+	       (if table
+		   (cdr table)
+		   false))
+	      (table (iter (cdr rest-keys)
+			   (assoc (car rest-keys) (cdr table))))
+	      (else false)))
+      (iter keys local-table))
+
+    (define (insert-record! keys value table)
+      (let ((subtable (assoc (car keys) (cdr table))))
+	(if (null? (cdr keys))
+	    (if subtable
+		(set-cdr! subtable value)
+		(set-cdr! table
+			  (cons (cons (car keys) value)
+				(cdr table))))
+	    (let ((new-table (list (car keys))))
+	      (set-cdr! table
+			(cons new-table (cdr table)))
+	      (insert-record! (cdr keys) value new-table)))))
+    (define (insert! keys value)
+      (define (iter rest-keys table)
+	(let ((subtable (assoc (car rest-keys) (cdr table))))
+	  (if subtable
+	      (if (null? (cdr rest-keys))
+		  (insert-record! rest-keys value table)
+		  (iter (cdr rest-keys) subtable))
+	      (insert-record! rest-keys value table))))
+      (iter keys local-table)
+      'ok)
+    (define (dispatch m)
+      (cond ((eq? m 'lookup-proc) lookup)
+	    ((eq? m 'insert-proc!) insert!)
+	    (else (error "Unknown operation: TABLE" m))))
+    dispatch))
+
+(define operation-table (make-table equal?))
+(define get (operation-table 'lookup-proc))
+(define put (operation-table 'insert-proc!))
+
+(put (list 'polar '(polar polar)) (lambda (x y) (+ x y)))
+((get (list 'polar '(polar polar))) 3 4)
+
+(put (list 'multiplify) (lambda (x y) (* x y)))
+((get (list 'multiplify)) 3 4)
+
+(put (list '+ '* '-) (lambda (x y) (+ (* (- x y) (- x y)) 1)))
+((get (list '+ '* '-)) 4 3)
