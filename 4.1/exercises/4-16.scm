@@ -1,0 +1,33 @@
+(define (lookup-variable-value var env)
+  (define (env-loop env)
+    (define (scan vars vals)
+      (cond ((null? vars)
+	     (env-loop (enclosing-environment env)))
+	    ((eq? var (car vars))
+	     (if (eq? (car vals) '*unassigned*)
+		 (error "Unassigned variable" var)
+		 (car vals)))
+	    (else (scan (cdr vars) (cdr vals)))))
+    (if (eq? env the-empty-environment)
+	(error "Unbound variable" var)
+	(let ((frame (first-frame env)))
+	  (scan (frame-variables frame)
+		(frame-values frame)))))
+  (env-loop env))
+
+(define (make-assignment var val)
+  (list 'set! var val))
+
+(define (scan-out-defines exp)
+  (define (initial-variable var) (list var '*unassigned))
+  (let ((defines (filter (lambda (proc) (definition? proc)) (lambda-body exp)))
+	(seq (filter (lambda (proc) (not (definition? proc))) (lambda-body exp))))
+    (let ((vars (map definition-variable defines))
+	  (vals (map definition-value defines)))
+      (make-lambda (lambda-parameters exp)
+		   (make-let (map initial-variable vars)
+			     (cons
+			      (map make-assignment vars vals)
+			      seq))))))
+
+			     
