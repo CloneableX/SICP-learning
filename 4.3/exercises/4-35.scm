@@ -1,0 +1,5 @@
+(define (an-integer-between low high)
+  (define (choose-integer n)
+    (require (<= n high))
+    (amb n (choose-integer (+ n 1)))
+  (choose-integer low))
