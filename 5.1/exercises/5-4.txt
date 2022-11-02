@@ -1,0 +1,36 @@
+;;; question a
+(controller
+   (assign continue (label exp-done))
+ exp-loop
+   (test (op =) (reg n) (const 0))
+   (branch (label base-case))
+   (save continue)
+   (assign continue (label after-exp))
+   (assign n (op -) (reg n) (const 1))
+   (goto (label exp-loop))
+ after-exp
+   (assign val (op *) (reg b) (reg val))
+   (restore continue)
+   (goto (reg continue))
+ base-case
+   (assign val (const 1))
+   (goto (reg continue))
+ exp-done)
+
+;;; question b
+(controller
+   (assign continue (label exp-done))
+ exp-loop
+   (test (op =) (reg c) (const 0))
+   (branch (label base-case))
+   (save continue)
+   (assign continue (label after-exp))
+   (assign c (op -) (reg c) (const 1))
+   (goto (label exp-loop))
+ after-exp
+   (assign p (op *) (reg p) (reg b))
+   (restore continue)
+   (goto (reg continue))
+ base-case
+   (goto (reg continue))
+ exp-done)

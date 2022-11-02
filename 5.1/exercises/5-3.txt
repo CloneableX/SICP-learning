@@ -1,0 +1,33 @@
+;;; version 1
+(controller
+ test-g
+   (test (op good-enough?) (reg g))
+   (branch (label sqrt-done))
+   (assign g (op improve) (reg g))
+   (goto (label test-g))
+ sqrt-done)
+
+;;; version 2
+(controller
+ test-g
+   (assign s (op square) (reg g))
+   (assign s (op minus) (reg s) (reg x))
+   (assign s (op abs) (reg s))
+   (test (op <) (reg s) (const 0.001))
+   (branch (label sqrt-done))
+   (assign g (op improve) (reg g))
+   (goto (label test-g))
+ sqrt-done)
+
+;;; version 3
+(controller
+ test-g
+   (assign s (op square) (reg g))
+   (assign s (op minus) (reg s) (reg x))
+   (assign s (op abs) (reg s))
+   (test (op <) (reg s) (const 0.001))
+   (branch (label sqrt-done))
+   (assign x (op divide) (reg g) (reg x))
+   (assign g (op average) (reg g) (reg x))
+   (goto (label test-g))
+ sqrt-done)

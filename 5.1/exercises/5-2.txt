@@ -1,0 +1,8 @@
+(controller
+ test-c
+   (test (op >) (reg c) (reg n))
+   (branch (label fact-done))
+   (assign p (op mul) (reg p) (reg c))
+   (assign c (op add) (reg c) (const 1))
+   (goto (label test-c))
+ fact-done)
