@@ -94,6 +94,12 @@
       (equal? (instruction-text (car insts))
 	      '(assign a (const 1))))))
 
+;;; it should throw error when encounters same label
+(let ((text '(controller
+	      label-a
+	      label-a)))
+  (extract-labels text))
+
 
 ;;;
 ;;; make-assign

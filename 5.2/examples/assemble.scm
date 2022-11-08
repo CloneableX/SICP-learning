@@ -52,14 +52,17 @@
 		(labels (cdr description)))
 	    (if (symbol? inst)
 		(cons insts
-		      (cons (make-label-entry inst insts)
+		      (cons (make-label-entry inst insts labels)
 			    labels))
 		(cons (cons (make-instruction inst)
 			    insts)
 		      labels)))))))
 
-(define (make-label-entry label-name insts)
-  (cons label-name insts))
+(define (make-label-entry label-name insts labels)
+  (let ((label (assoc label-name labels)))
+    (if label
+	(error "Not allow same label: ASSEMBLE" label-name)
+	(cons label-name insts))))
 
 (define (make-execute-procedure inst-text machine)
   (cond ((assign? inst-text)
