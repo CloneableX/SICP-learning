@@ -166,7 +166,9 @@
 	  (operand-procs
 	   (map
 	    (lambda (operand)
-	      (make-primitive-proc operand machine))
+	      (if (label? operand)
+		  (error "Not allow label as operand: ASSEMBLE" exp)
+		  (make-primitive-proc operand machine)))
 	    (cdr exp))))
       (lambda ()
 	(apply op-proc (map (lambda (p) (p)) operand-procs))))))

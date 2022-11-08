@@ -278,3 +278,11 @@
 		     '())))
   (equal? ((make-operation-proc exp machine)) 2))
 
+;;; it should throw error when there are any labels in operands
+(let ((exp '((op +) (label label-a) (const 1)))
+      (machine
+       (make-machine '(a)
+		     (list (list '+ +))
+		     '())))
+  ((make-operation-proc exp machine)))
+
