@@ -24,7 +24,7 @@
 	   (list (list 'pc pc) 
 		 (list 'flag flag)
 		 (list 'stack stack)))
-	  (the-ops '()))
+	  (the-ops (list (list 'initialize-stack (lambda () (set! stack (make-stack)))))))
       (define (allocate-register register-name)
 	(let ((register (find-register register-name)))
 	  (if register
