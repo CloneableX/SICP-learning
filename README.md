@@ -1,5 +1,5 @@
-该仓库代码为 SICP 课后练习和文章示例代码，课后练习有些不需要编写代码，而有一些练习题代码比较复杂、冗长，除此之外有些练习我参考了其他人的解答。所以如果需要完整的课后练习解答，可以点击[SICP Solutions](http://community.schemewiki.org/?SICP-Solutions) 跳转查看。
+该仓库代码为 SICP 课后练习和文章示例代码，课后练习有些不需要编写代码，而有一些练习题代码比较复杂、冗长，除此之外有些练习我参考了其他人的解答。所以如果需要完整的课后练习解答，可以点击 [SICP Solutions](http://community.schemewiki.org/?SICP-Solutions) 跳转查看。
 
 关于书籍中的示例代码部分可以直接查看 SICP 原文，在第 4 章和第 5 章由于要编写较为复杂的解释器和寄存器机器代码，为了使自己厘清思路，我增加了一些对应的测试代码。
 
-在本仓库的 WIKI 中我自己翻译了 SICP 正文部分（脚注等部分都没有翻译），需要阅读的可以点击[SICP 翻译](https://github.com/CloneableX/SICP-learning) 跳转。由于我的主要目的只是学习 SICP，翻译只是附属产物，加上本人翻译水平有限，所以质量欠佳，更加推荐你阅读 SICP 原文。
+在本仓库的 WIKI 中我自己翻译了 SICP 正文部分（脚注等部分都没有翻译），需要阅读的可以点击 [SICP 翻译](https://github.com/CloneableX/SICP-learning) 跳转。由于我的主要目的只是学习 SICP，翻译只是附属产物，加上本人翻译水平有限，所以质量欠佳，更加推荐你阅读 SICP 原文。
